@@ -27,8 +27,34 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
+  //console.log(req.body.type);
+  //console.log(req.body.participants);
 
+  console.log(`https://bored-api.appbrewery.com/filter?type=${req.body.type}&participants=${req.body.participants}`);
+
+  
+
+  try {
+    const response = await axios.get(`https://bored-api.appbrewery.com/filter?type=${req.body.type}&participants=${req.body.participants}`);
+    const result = response.data;
+    console.log(result[Math.floor(Math.random() * result.length)]);
+    //console.log('random result is' + result[Math.floor(Math.random() * result.length)]);
+    res.render("index.ejs", {
+      data: result[Math.floor(Math.random() * result.length)],
+    });
+ /* res.render("index.ejs", { data: 
+   {"activity":"Volunteer at a local animal shelter","availability":0.5,"type":"charity","participants":1,"price":0.1,"accessibility":"Minor challenges","duration":"hours","kidFriendly":true,"link":"","key":"1382389"}
+  });*/
+
+
+
+  } catch (error) {
+    console.error("Failed to make request:", error.message);
+    res.render("index.ejs", {
+      error: error.message,
+    });
+  }
   // Step 2: Play around with the drop downs and see what gets logged.
   // Use axios to make an API request to the /filter endpoint. Making
   // sure you're passing both the type and participants queries.

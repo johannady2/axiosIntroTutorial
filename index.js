@@ -33,14 +33,6 @@ app.post("/", async (req, res) => {
 
     let linkToLoad = `https://bored-api.appbrewery.com/filter?type=${req.body.type}&participants=${req.body.participants}`;
 
-  if(!req.body.type && !req.body.participants)
-  {
-    linkToLoad = "https://bored-api.appbrewery.com/random"; 
-  }
-
-
-  
-
   try {
     const response = await axios.get(linkToLoad);
     const result = response.data;
